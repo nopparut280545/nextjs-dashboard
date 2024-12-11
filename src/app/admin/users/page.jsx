@@ -23,7 +23,7 @@ function AdminUserManagePage() {
     const getAllUsersData = async () => {
         try {
 
-            const res = await fetch(`${process.env.NEXT_PUBLTC_URL}/api/totalusers`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/totalusers`, {
                 cache: "no-store"
             })
 

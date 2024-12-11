@@ -35,7 +35,7 @@ function RegisterPage() {
 
         try {
 
-            const resUserExists = await fetch(`${process.env.NEXT_PUBLTC_URL}/api/userExists`, {
+            const resUserExists = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/userExists`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -50,7 +50,7 @@ function RegisterPage() {
                 return;
             }
 
-            const res = await fetch(`${process.env.NEXT_PUBLTC_URL}/api/register`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
