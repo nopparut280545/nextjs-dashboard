@@ -44,7 +44,7 @@ function AdminPage() {
     const getTotalPosts = async () => {
         try {
 
-            const res = await fetch('${process.env.NEXT_PUBLTC_URL}/api/totalposts', {
+            const res = await fetch(`${process.env.NEXT_PUBLTC_URL}/api/totalposts`, {
                 cache: "no-store"
             })
 
