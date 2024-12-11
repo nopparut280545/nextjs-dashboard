@@ -25,7 +25,7 @@ function AdminPage() {
     const getTotalUsers = async () => {
         try {
 
-            const res = await fetch("http://localhost:3000/api/totalusers", {
+            const res = await fetch(`${process.env.NEXT_PUBLTC_URL}/api/totalusers`, {
                 cache: "no-store"
             })
 
