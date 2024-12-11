@@ -45,30 +45,48 @@ function LoginPage() {
   return (
     <Container>
         <Navbar />
-            <div className='flex-grow'>
-                <div className='flex justify-center items-center'>
-                    <div className='w-[400px] shadow-xl p-10 mt-5 rounded-xl'>
-                        <h3 className='text-3xl'>Login</h3>
-                        <hr className='my-3' />
-                        <form onSubmit={handleSubmit}>
+        <div className='flex-grow'>
+   <div className='flex justify-center items-center min-h-[80vh]'>
+       <div className='w-[400px] bg-white shadow-2xl p-10 mt-5 rounded-2xl'>
+           <h3 className='text-3xl font-semibold text-gray-800 mb-2'>Login</h3>
+           <hr className='my-4 border-gray-200' />
+           <form onSubmit={handleSubmit}>
+               {error && (
+                   <div className='bg-red-500 text-sm text-white py-2 px-4 rounded-lg mt-2 shadow-sm'>
+                       {error}
+                   </div>
+               )}
 
-                            {error && (
-                                <div className='bg-red-500 w-fit text-sm text-white py-1 px-3 rounded-md mt-2'>
-                                    {error}
-                                </div>
-                            )}
-
-                            <input type="text" onChange={(e) => setEmail(e.target.value)} className='w-full bg-gray-200 border py-2 px-3 rounded text-lg my-2' placeholder='Enter your email' />
-                            <input type="password" onChange={(e) => setPassword(e.target.value)} className='w-full bg-gray-200 border py-2 px-3 rounded text-lg my-2' placeholder='Enter your password' />
-                            <button className='bg-green-500 text-white border py-2 px-3 rounded text-lg my-2' type='submit'>Sign In</button>
-                            <hr className='my-3' />
-                            <p>
-                                Do not have an account? Go go <Link href="/register" className='text-blue-500 hover:underline'>Register</Link> Page
-                            </p>
-                        </form>
-                    </div>
-                </div>
-            </div>
+               <input 
+                   type="text" 
+                   onChange={(e) => setEmail(e.target.value)} 
+                   className='w-full bg-gray-50 border border-gray-200 py-3 px-4 rounded-lg text-lg my-3 outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200' 
+                   placeholder='Enter your email' 
+               />
+               <input 
+                   type="password" 
+                   onChange={(e) => setPassword(e.target.value)} 
+                   className='w-full bg-gray-50 border border-gray-200 py-3 px-4 rounded-lg text-lg my-3 outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200' 
+                   placeholder='Enter your password' 
+               />
+               <button 
+                   className='w-full bg-blue-500 hover:bg-blue-600 text-white py-3 px-4 rounded-lg text-lg my-3 transition-colors duration-200 shadow-md hover:shadow-lg font-medium' 
+                   type='submit'
+               >
+                   Sign In
+               </button>
+               <hr className='my-6 border-gray-200' />
+               <p className='text-gray-600 text-center'>
+                   Do not have an account? Go to{' '}
+                   <Link href="/register" className='text-blue-500 hover:text-blue-600 font-medium transition-colors duration-200'>
+                       Register
+                   </Link>
+                   {' '}Page
+               </p>
+           </form>
+       </div>
+   </div>
+</div>
         <Footer />
     </Container>
   )

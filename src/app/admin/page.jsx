@@ -68,14 +68,20 @@ function AdminPage() {
   return (
     <Container>
         <AdminNav session={session} />
+        <div className='flex-grow bg-gray-50'>
+    <div className='container mx-auto px-4'>
+        <div className='flex gap-6 py-8'>
+            <SideNav className="flex-shrink-0" />
             <div className='flex-grow'>
-                <div className='container mx-auto'>
-                    <div className='flex justify-between mt-10'>
-                        <SideNav />
-                        <Content totalUsersData={totalUsersData} totalPostsData={totalPostsData} />
-                    </div>
-                </div>
+                <Content 
+                    totalUsersData={totalUsersData} 
+                    totalPostsData={totalPostsData} 
+                    className="bg-white rounded-xl shadow-lg"
+                />
             </div>
+        </div>
+    </div>
+</div>
         <Footer />
     </Container>
   )
