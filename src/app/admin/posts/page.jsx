@@ -49,53 +49,60 @@ function AdminUserManagePage() {
   return (
     <Container>
         <AdminNav session={session} />
-            <div className='flex-grow'>
-                <div className='container mx-auto'>
-                    <div className='flex mt-10'>
-                        <SideNav />
-                        <div className='p-10'>
-                            <h3 className='text-3xl mb-3'>Manage Posts</h3>
-                            <p>A list of posts retrieved from a MongoDB database</p>
+        <div className='flex-grow bg-gray-50'>
+   <div className='container mx-auto'>
+       <div className='flex gap-6 py-6'>
+           <SideNav />
+           <div className='flex-1 bg-white rounded-xl shadow-md p-8'>
+               <h3 className='text-3xl font-semibold text-gray-800 mb-3'>Manage Posts</h3>
+               <p className='text-gray-600 mb-6'>A list of posts retrieved from a MongoDB database</p>
 
-                            <div className='shadow-lg overflow-x-auto'>
-                                <table className='text-left rounded-md mt-3 table-fixed w-full'>
-                                    <thead>
-                                        <tr className='bg-gray-400'>
-                                            <th className='p-5'>Post ID</th>
-                                            <th className='p-5'>Post Title</th>
-                                            <th className='p-5'>Post Image</th>
-                                            <th className='p-5'>Post Content</th>
-                                            <th className='p-5'>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {allPostsData?.map(val => (
-                                            <tr key={val._id}>
-                                                <td className='p-5'>{val._id}</td>
-                                                <td className='p-5'>{val.title}</td>
-                                                <td className='p-5'>
-                                                    <Image 
-                                                        className='my-3 rounded-md'
-                                                        src={val.img}
-                                                        width={80}
-                                                        height={80}
-                                                        alt={val.title}
-                                                    />
-                                                </td>
-                                                <td className='p-5'>{val.content}</td>
-                                                <td className='p-5'>
-                                                    <Link className='bg-gray-500 text-white border py-2 px-3 rounded text-lg my-2' href={`/admin/posts/edit/${val._id}`}>Edit</Link>
-                                                    <DeleteBtn id={val._id} />
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+               <div className='shadow-lg rounded-xl overflow-hidden'>
+                   <table className='w-full bg-white'>
+                       <thead>
+                           <tr className='bg-gray-100 border-b'>
+                               <th className='p-4 text-left text-gray-600 font-medium'>Post ID</th>
+                               <th className='p-4 text-left text-gray-600 font-medium'>Post Title</th>
+                               <th className='p-4 text-left text-gray-600 font-medium'>Post Image</th>
+                               <th className='p-4 text-left text-gray-600 font-medium'>Post Content</th>
+                               <th className='p-4 text-left text-gray-600 font-medium'>Actions</th>
+                           </tr>
+                       </thead>
+                       <tbody>
+                           {allPostsData?.map(val => (
+                               <tr key={val._id} className='border-b hover:bg-gray-50 transition-colors duration-150'>
+                                   <td className='p-4 text-gray-700'>{val._id}</td>
+                                   <td className='p-4 text-gray-700'>{val.title}</td>
+                                   <td className='p-4'>
+                                       <Image 
+                                           className='rounded-lg shadow-sm'
+                                           src={val.img}
+                                           width={80}
+                                           height={80}
+                                           alt={val.title}
+                                       />
+                                   </td>
+                                   <td className='p-4 text-gray-700'>{val.content}</td>
+                                   <td className='p-4'>
+                                       <div className='flex gap-2'>
+                                           <Link 
+                                               className='bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg transition-colors duration-200'
+                                               href={`/admin/posts/edit/${val._id}`}
+                                           >
+                                               Edit
+                                           </Link>
+                                           <DeleteBtn id={val._id} />
+                                       </div>
+                                   </td>
+                               </tr>
+                           ))}
+                       </tbody>
+                   </table>
+               </div>
+           </div>
+       </div>
+   </div>
+</div>
         <Footer />
     </Container>
   )
