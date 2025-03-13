@@ -1,69 +1,68 @@
-import NextAuth from "next-auth/next";
-import CredentialsProvider from "next-auth/providers/credentials";
-import { connectMongoDB } from "../../../../../lib/mongodb";
-import User from "../../../../../models/user";
+import NextAuth from 'next-auth'
+import CredentialsProvider from 'next-auth/providers/credentials'
+import db from '@/lib/db'
 import bcrypt from 'bcryptjs'
 
-const authOptions = {
-    providers: [
-        CredentialsProvider({
-            name: 'credentials',
-            credentials: {},
-            async authorize(credentials, req) {
-                const { email, password } = credentials;
+const handler = NextAuth({
+  providers: [
+    CredentialsProvider({
+      name: 'credentials',
+      credentials: {},
+      async authorize(credentials) {
+        const { email, password } = credentials;
 
-                try {
-                    await connectMongoDB();
-                    const user = await User.findOne({ email });
+        try {
+          // ค้นหา user จาก email
+          const users = await db.query(
+            'SELECT * FROM users WHERE email = ?', 
+            [email]
+          );
 
-                    if (!user) {
-                        return null;
-                    }
+          if (!users || users.length === 0) {
+            return null;
+          }
 
-                    const passwordMatch = await bcrypt.compare(password, user.password);
+          const user = users[0];
 
-                    if (!passwordMatch) {
-                        return null;
-                    }
+          // เปรียบเทียบรหัสผ่าน
+          const passwordMatch = await bcrypt.compare(password, user.password);
 
-                    return user;
+          if (!passwordMatch) {
+            return null;
+          }
 
-                } catch(error) {
-                    console.log("Error: ", error);
-                }
-            }
-        })
-    ],
-    session: {
-        strategy: "jwt"
-    },
-    secret: "d7238j3g48fg834gf8g348fg834f834hf834",
-    pages: {
-        signIn: "/login"
-    },
-    callbacks: {
-        async jwt({ token, user, session }) {
-            if (user) {
-                return {
-                    ...token,
-                    id: user.id,
-                    role: user.role
-                }
-            }
-            return token;
-        },
-        async session({ session, user, token }) {
-            return {
-                ...session,
-                user: {
-                    ...session.user,
-                    id: token.id,
-                    role: token.role
-                }
-            }
+          // ส่งข้อมูล user กลับไป (ไม่รวมรหัสผ่าน)
+          return {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            role: user.role
+          };
+
+        } catch (error) {
+          console.log("Error: ", error);
+          return null;
         }
+      }
+    })
+  ],
+  pages: {
+    signIn: '/login',
+  },
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.role = user.role;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (token) {
+        session.user.role = token.role;
+      }
+      return session;
     }
-}
+  }
+})
 
-const handler = NextAuth(authOptions);
-export { handler as GET, handler as POST };
+export { handler as GET, handler as POST }
